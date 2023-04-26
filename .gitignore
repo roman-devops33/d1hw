@@ -1,0 +1,6 @@
+### My list ###
+# Terraform
+*.lock.hcl
+# GitLab and other
+.secure_files/*
+
