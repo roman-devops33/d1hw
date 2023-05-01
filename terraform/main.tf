@@ -61,7 +61,7 @@ resource "yandex_vpc_subnet" "subnet" {
 resource "cloudflare_record" "ssh" {
   for_each = var.image_family
   zone_id  = var.cloudflare_zone_id
-  name     = length(var.image_family) == 1 ? "yc1" : "yc${index(keys(var.image_family), each.key) + 1}"
+  name     = "yc${index(keys(var.image_family), each.key) + 1}"
   value    = yandex_compute_instance.vm[each.key].network_interface[0].nat_ip_address
   type     = "A"
   proxied  = false
