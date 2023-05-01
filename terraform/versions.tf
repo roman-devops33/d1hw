@@ -1,4 +1,4 @@
-# Токены лежат во внешнем файле, инициализацию проводить через команду: terraform init -backend-config=${TF_BACKEND_YC}
+# terraform init -backend-config=../.secure_files/backend.tfvars
 # Проверка: pre-commit run -a
 terraform {
   required_providers {
