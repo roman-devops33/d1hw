@@ -12,11 +12,6 @@ terraform {
       source  = "cloudflare/cloudflare"
       version = "~> 3.0"
     }
-
-    local = {
-      source  = "hashicorp/local"
-      version = "2.3.0"
-    }
   }
   backend "s3" {
     key                         = "state/d1hw.tfstate"

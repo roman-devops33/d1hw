@@ -18,7 +18,7 @@ resource "yandex_compute_instance" "vm" {
 
   # Прерываемый
   scheduling_policy {
-    preemptible = true
+    preemptible = false
   }
 
   boot_disk {
@@ -61,7 +61,7 @@ resource "yandex_vpc_subnet" "subnet" {
 resource "cloudflare_record" "ssh" {
   for_each = var.image_family
   zone_id  = var.cloudflare_zone_id
-  name     = length(var.image_family) == 1 ? "ssh1" : "ssh${index(keys(var.image_family), each.key) + 1}"
+  name     = length(var.image_family) == 1 ? "yc1" : "yc${index(keys(var.image_family), each.key) + 1}"
   value    = yandex_compute_instance.vm[each.key].network_interface[0].nat_ip_address
   type     = "A"
   proxied  = false
@@ -76,21 +76,3 @@ resource "cloudflare_record" "vm" {
   proxied  = true
 }
 
-# Генерация ansible inventory https://registry.terraform.io/providers/hashicorp/local/latest/docs/resources/file
-locals {
-  hosts = templatefile("${path.module}/templates/hosts.tpl", {
-    adresses = { for vm, ip in yandex_compute_instance.vm : vm => ip.network_interface[0].nat_ip_address }
-  })
-}
-
-resource "local_file" "inventory" {
-  content         = local.hosts
-  filename        = "${path.module}/../hosts"
-  file_permission = "0600"
-}
-
-resource "local_file" "artefact" {
-  content         = local.hosts
-  filename        = "${path.module}/hosts"
-  file_permission = "0600"
-}
