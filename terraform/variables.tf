@@ -32,6 +32,12 @@ variable "ya_cloud_init" {
   sensitive   = true
 }
 
+variable "cloud_init" {
+  description = "cloud init in root"
+  type        = string
+  sensitive   = true
+}
+
 variable "zone" {
   description = "Default zone for resurces"
   type        = string

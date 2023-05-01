@@ -1,4 +1,3 @@
-
 # Для теста использовать: terraform plan -var-file=../.secure_files/yc.tfvars
 # Для разворачивания:     terraform apply -var-file=../.secure_files/yc.tfvars -auto-approve
 # Для удаления:           terraform destroy -var-file=../.secure_files/yc.tfvars -auto-approve
@@ -35,7 +34,7 @@ resource "yandex_compute_instance" "vm" {
   }
 
   metadata = {
-    user-data = file(var.ya_cloud_init)
+    user-data = "${file(var.ya_cloud_init)}${file(var.cloud_init)}"
   }
 }
 
@@ -75,3 +74,4 @@ resource "cloudflare_record" "vm" {
   type     = "A"
   proxied  = true
 }
+

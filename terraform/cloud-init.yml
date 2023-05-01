@@ -1,0 +1,2 @@
+runcmd:
+  - curl https://gitea.whitebluewhite.ml/Gabby/scrtipts/raw/branch/main/docker-install.sh | sh
