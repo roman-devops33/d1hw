@@ -75,4 +75,3 @@ resource "cloudflare_record" "vm" {
   type     = "A"
   proxied  = true
 }
-

@@ -3,4 +3,3 @@
 *.lock.hcl
 # GitLab and other
 .secure_files/*
-
