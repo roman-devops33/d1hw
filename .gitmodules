@@ -1,0 +1,3 @@
+[submodule ".secure_files"]
+	path = .secure_files
+	url = git@git.whitebluewhite.ml:Gabby/.secure_files.git
