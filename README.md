@@ -16,3 +16,11 @@
 - [ ] Погасить проект.
 
 - [ ] Проверено, оценка n/n
+
+```
+sudo docker swarm init
+```
+
+```
+sudo docker stack deploy --with-registry-auth -c ./docker-compose.yml socks;
+```
