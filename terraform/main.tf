@@ -69,7 +69,7 @@ resource "cloudflare_record" "ssh" {
 resource "cloudflare_record" "vm" {
   for_each = var.image_family
   zone_id  = var.cloudflare_zone_id
-  name     = length(var.image_family) == 1 ? "*" : each.key
+  name     = each.key == "manager" ? "*" : each.key
   value    = yandex_compute_instance.vm[each.key].network_interface[0].nat_ip_address
   type     = "A"
   proxied  = true
