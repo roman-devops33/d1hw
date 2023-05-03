@@ -63,7 +63,7 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.front.entrypoints=https
-      - traefik.http.routers.front.rule=Host(`swarm.${DOMAIN_NAME}`)
+      - traefik.http.routers.front.rule=Host(`socks.${DOMAIN_NAME}`)
       - traefik.http.routers.front.tls=true
     deploy:
       mode: replicated
