@@ -2,41 +2,41 @@
 version: '3'
 services:
   reproxy:
-  image: traefik:v2.9
-  container_name: traefik
-  command:
-    - --api.dashboard=true
-    - --providers.docker=true
-    - --providers.docker.watch
-    - --providers.docker.swarmMode=true
-    - --providers.docker.defaultrule=Host(`{{ index .Labels "com.docker.compose.service" }}.${DOMAIN_NAME}`)
-    - --providers.docker.exposedbydefault=false
-    - --providers.file.watch=true
-    - --providers.file.directory=/config
-    - --entrypoints.http.address=:80
-    - --entrypoints.https.address=:443
-    - --entrypoints.https.http.tls=true
-    - --experimental.http3=true
-  restart: unless-stopped
-  environment: ['DOMAIN_NAME=${DOMAIN_NAME}']
-  volumes:
-    - /var/run/docker.sock:/var/run/docker.sock:ro
-    - /etc/localtime:/etc/localtime:ro
-    - ./confs/traefik:/config
-    - ./ssl:/ssl:ro
-  ports: [80:80, 443:443]
-  deploy:
-    mode: replicated
-    replicas: 1
-    placement:
-      constraints:
-        - node.role == manager
-  labels:
-    - traefik.enable=true
-    - traefik.http.routers.traefik.entrypoints=https
-    - traefik.http.routers.traefik.rule=Host(`traefik.${DOMAIN_NAME}`)
-    - traefik.http.routers.traefik.tls=true
-    - traefik.http.routers.traefik.service=api@internal
+    image: traefik:v2.9
+    container_name: traefik
+    command:
+      - --api.dashboard=true
+      - --providers.docker=true
+      - --providers.docker.watch
+      - --providers.docker.swarmMode=true
+      - --providers.docker.defaultrule=Host(`{{ index .Labels "com.docker.compose.service" }}.${DOMAIN_NAME}`)
+      - --providers.docker.exposedbydefault=false
+      - --providers.file.watch=true
+      - --providers.file.directory=/config
+      - --entrypoints.http.address=:80
+      - --entrypoints.https.address=:443
+      - --entrypoints.https.http.tls=true
+      - --experimental.http3=true
+    restart: unless-stopped
+    environment: ['DOMAIN_NAME=${DOMAIN_NAME}']
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /etc/localtime:/etc/localtime:ro
+      - ./confs/traefik:/config
+      - ./ssl:/ssl:ro
+    ports: [80:80, 443:443]
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == manager
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.traefik.entrypoints=https
+      - traefik.http.routers.traefik.rule=Host(`traefik.${DOMAIN_NAME}`)
+      - traefik.http.routers.traefik.tls=true
+      - traefik.http.routers.traefik.service=api@internal
   front-end:
     image: weaveworksdemos/front-end:0.3.12
     hostname: front-end
@@ -59,9 +59,11 @@ services:
     tmpfs: ['/var/run:rw,noexec,nosuid']
     hostname: edge-router
     restart: always
+    environment: ['DOMAIN_NAME=${DOMAIN_NAME}']
     labels:
       - traefik.enable=true
       - traefik.http.routers.front.entrypoints=https
+      - traefik.http.routers.front.rule=Host(`swarm.${DOMAIN_NAME}`)
       - traefik.http.routers.front.tls=true
     deploy:
       mode: replicated
