@@ -22,5 +22,5 @@ sudo docker swarm init
 ```
 
 ```
-sudo docker stack deploy --with-registry-auth -c ./docker-compose.yml socks;
+sudo docker stack deploy --with-registry-auth -c ./docker-compose.yml socks
 ```
