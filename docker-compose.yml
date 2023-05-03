@@ -22,7 +22,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /etc/localtime:/etc/localtime:ro
-      - ./confs/traefik:/config
+      - ./conf:/config
       - ./ssl:/ssl:ro
     ports: [80:80, 443:443]
     deploy:
