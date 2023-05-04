@@ -1,9 +1,9 @@
 runcmd:
-  - curl https://gitea.whitebluewhite.ml/Gabby/scrtipts/raw/branch/main/docker-install.sh | sh
+  - curl https://gitea.whitebluewhite.ml/Gabby/scrtipts/raw/branch/dev/docker-install.sh | sh
   - mkdir /var/d1
-  - curl https://gitea.whitebluewhite.ml/Gabby/d1hw/raw/branch/main/docker-compose.yml -o /var/d1/docker-compose.yml
+  - curl https://gitea.whitebluewhite.ml/Gabby/d1hw/raw/branch/dev/docker-compose.yml -o /var/d1/docker-compose.yml
   - mkdir /var/d1/conf
-  - curl https://gitea.whitebluewhite.ml/Gabby/d1hw/raw/branch/main/traefik.yml -o /var/d1/conf/traefik.yml
+  - curl https://gitea.whitebluewhite.ml/Gabby/d1hw/raw/branch/dev/traefik.yml -o /var/d1/conf/traefik.yml
   - mkdir /var/d1/ssl
   - echo "" >> /var/d1/ssl/ssl.crt
   - echo "" >> /var/d1/ssl/ssl.key
