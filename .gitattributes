@@ -1,3 +1,0 @@
-screenshots/worker.png filter=lfs diff=lfs merge=lfs -text
-screenshots/browser.png filter=lfs diff=lfs merge=lfs -text
-screenshots/manager.png filter=lfs diff=lfs merge=lfs -text
