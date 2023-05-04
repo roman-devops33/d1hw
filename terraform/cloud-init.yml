@@ -6,4 +6,6 @@ runcmd:
   - curl https://gitea.whitebluewhite.ml/Gabby/d1hw/raw/branch/main/traefik.yml -o /var/d1/conf/traefik.yml
   - mkdir /var/d1/ssl
   - curl https://gitea.whitebluewhite.ml/Gabby/d1hw/raw/branch/main/env-template -o /var/d1/.env
+  - echo "" >> /var/d1/ssl/ssl.crt
+  - echo "" >> /var/d1/ssl/ssl.key
 

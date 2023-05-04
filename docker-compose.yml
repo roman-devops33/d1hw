@@ -3,17 +3,14 @@ version: '3'
 services:
   reproxy:
     image: traefik:v2.9
-    container_name: traefik
     command:
       - --api.dashboard=true
       - --providers.docker=true
       - --providers.docker.watch
       - --providers.docker.swarmMode=true
-      - --providers.docker.defaultrule=Host(`{{ index .Labels "com.docker.compose.service" }}.${DOMAIN_NAME}`)
       - --providers.docker.exposedbydefault=false
       - --providers.file.watch=true
       - --providers.file.directory=/config
-      - --entrypoints.http.address=:80
       - --entrypoints.https.address=:443
       - --entrypoints.https.http.tls=true
       - --experimental.http3=true
@@ -31,12 +28,13 @@ services:
       placement:
         constraints:
           - node.role == manager
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.traefik.entrypoints=https
-      - traefik.http.routers.traefik.rule=Host(`traefik.${DOMAIN_NAME}`)
-      - traefik.http.routers.traefik.tls=true
-      - traefik.http.routers.traefik.service=api@internal
+      labels:
+        - traefik.enable=true
+        - traefik.http.routers.traefik.tls=true
+        - traefik.http.routers.traefik.entrypoints=https
+        - traefik.http.routers.traefik.service=api@internal
+        - traefik.http.routers.traefik.rule=Host(`traefik.${DOMAIN_NAME}`)
+        - traefik.http.services.reproxy.loadbalancer.server.port=9999
   front-end:
     image: weaveworksdemos/front-end:0.3.12
     hostname: front-end
@@ -52,7 +50,6 @@ services:
         failure_action: rollback
   edge-router:
     image: weaveworksdemos/edge-router:0.1.1
-    expose: [80, 8080]
     cap_drop: [all]
     cap_add: [NET_BIND_SERVICE, CHOWN, SETGID, SETUID, DAC_OVERRIDE]
     read_only: true
@@ -60,11 +57,6 @@ services:
     hostname: edge-router
     restart: always
     environment: ['DOMAIN_NAME=${DOMAIN_NAME}']
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.front.entrypoints=https
-      - traefik.http.routers.front.rule=Host(`socks.${DOMAIN_NAME}`)
-      - traefik.http.routers.front.tls=true
     deploy:
       mode: replicated
       replicas: 3
@@ -72,6 +64,12 @@ services:
         parallelism: 2
         order: start-first
         failure_action: rollback
+      labels:
+        - traefik.enable=true
+        - traefik.http.routers.edge-router.tls=true
+        - traefik.http.routers.edge-router.entrypoints=https
+        - traefik.http.routers.edge-router.rule=Host(`socks.${DOMAIN_NAME}`)
+        - traefik.http.services.edge-router.loadbalancer.server.port=80
   catalogue:
     image: weaveworksdemos/catalogue:0.3.5
     hostname: catalogue
