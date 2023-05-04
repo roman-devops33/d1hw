@@ -23,4 +23,3 @@ sudo docker stack deploy --with-registry-auth -c ./docker-compose.yml socks
 * docker swarm net habr: <https://habr.com/ru/articles/334004/>
 * docker swarm traefik: <https://dockerswarm.rocks/traefik/>
 * sock-shop: <https://microservices-demo.github.io/>
-
