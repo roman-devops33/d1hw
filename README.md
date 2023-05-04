@@ -8,7 +8,7 @@
 * Скриншоты: [link](screenshots/README.md)
 * Сайт: <https://socks.devops33.site/>
 
-- [ ] Проверено, оценка n/n
+- [x] Проверено, оценка 5/5
 
 ```
 sudo docker swarm init
